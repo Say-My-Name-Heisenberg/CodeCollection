@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record id="vendor_rejection_email_template" model="mail.template">
+            <field name="name">Vendor Rejection Notification</field>
+            <field name="model_id" ref="vendor_registration_form.model_vendor_registration"/>
+            <field name="email_to">{{object.email}}</field>
+            <field name="email_from">{{user.email}}</field>
+            <field name="subject">Your Vendor Registration was Rejected</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px; font-size: 13px;">
+                    <span style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear
+                        <t t-out="object.representative_name"></t>,
+                        <br/>
+                        <br/>
+                        <p>
+                            We regret to inform you that your vendor registration request has been rejected.
+                        </p>
+                        <p>
+                           <strong>Reason:</strong><t t-out="object.rejection_reason"></t>
+                        </p>
+                        <p>
+                           Please feel free to contact us for further information.
+                        </p>
+                        <p>Regards,<br/>Vendor Management Team</p>
+                    </span>
+                </div>
+            </field>
+            
+        </record>
+
+    </data>
+</odoo>

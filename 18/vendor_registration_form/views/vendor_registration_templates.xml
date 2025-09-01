@@ -1,0 +1,181 @@
+<odoo>
+    <record id="website_menu_vendor_form_registration" model="website.menu">
+            <field name="name">Vendor Registration</field>
+            <field name="url">/vendor/registration</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">30</field>
+        </record>
+    <template id="vendor_registration_form_template" name="Vendor Registration Form">
+        <!--<t t-call-assets="web.assets_frontent"/>-->
+        <t t-call="website.layout">
+            <section class="container my-5">
+             <h2 class="text-center">VENDOR REGISTRATION FORM</h2>
+            <p class="text-center">Thank you for your interest in becoming a vendor/supplier for us. If you wish to apply for this status,
+please fill out this online Vendor/Supplier Registration Form.</p>
+            <hr/>
+                <br/>
+            <!--<h2>Vendor Registration</h2>-->
+            <form action="/portal/vendor/registration/submit" method="post" enctype="multipart/form-data" id="vendor_registration_form">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="form-group">
+                    <label for="vendor_name">Your company’s legal name</label>
+                    <input type="text" id="vendor_name" name="name" class="form-control" required="True"/>
+                </div>
+                <br/>
+                <div>
+                    <div><label>Business Type</label></div>
+                        <label><input type="radio" name="business_type" value="one" required="required"/> Micro Enterprises</label>
+                        <label><input type="radio" name="business_type" value="two"/> Small Enterprises</label>
+                        <label><input type="radio" name="business_type" value="three"/> Medium Enterprises</label>
+                    </div>
+                <br/>
+                    <div>
+                        <label>What kind of products / services does your company offer</label>
+                        <textarea name="products_services" class="form-control" required="True"></textarea>
+                    </div>
+                    <div>
+                        <label>Company Website</label>
+                        <input type="text" name="website" class="form-control" required="True"/>
+                    </div>
+                     <div>
+                        <label>Vendor Category</label>
+                        <input type="text" name="vendor_category" class="form-control"/>
+                    </div>
+<!--
+                    <div>
+                        <label>Company address</label>
+                        <input type="text" name="company_address" class="form-control" required="True"/>
+                    </div>
+-->
+                    <div>
+                        <label>Company address</label>
+                        <input type="text" name="street1" class="form-control" required="True"/>
+                        <label>Street Address 2</label>
+                        <input type="text" name="street2" class="form-control" required="True"/>
+                        <label>City</label>
+                         <select name="city_id" id="city_id" class="form-control" required="True">
+                             <t t-foreach="cities" t-as="city">
+                                <option t-att-value="city.id"><t t-esc="city.name"/></option>
+                            </t>
+                         </select>
+                        <label>Region</label>
+                        <select name="state_id" id="state_id" class="form-control" required="True">
+                             <t t-foreach="states" t-as="state">
+                                <option t-att-value="state.id"><t t-esc="state.name"/></option>
+                            </t>
+                         </select>
+                        <label>Postal Code</label>
+                        <input type="text" name="postal_code" class="form-control" required="True"/>
+                        <label>Country</label>
+                         <select name="country_id" id="country_id" class="form-control" required="True">
+                            <t t-foreach="countries" t-as="country">
+                                <option t-att-value="country.id"><t t-esc="country.name"/></option>
+                            </t>
+                        </select>
+                    </div>
+                    <!-- <div>
+                        <label>Please provide information on the following company founding year, company size, company audience, geographical target.</label>
+                        <textarea name="company_info" class="form-control"></textarea>
+                    </div> -->
+                    <div>
+                        <label>Name of the person representing the company</label>
+                        <input type="text" name="representative_name" class="form-control" required="True"/>
+                        <label>Contact Email</label>
+                        <input type="email" name="email" class="form-control" required="True"/>
+                        <label>Contact phone</label>
+                        <input type="text" name="phone" class="form-control" required="True"/>
+                    </div>
+                <br/>
+                 <div class="file-upload-group">
+                    <label>ID of authorized signature</label>
+                    <input type="file" name="id_authorised" class="form-control" id="id_authorised_input" required="True"/>
+                    <button type="button" class="btn btn-link text-danger file-remove-btn"
+                        onclick="clearFileInput('id_authorised_input', this)" style="display:none;">&#10006;</button>
+                </div>
+                     <div class="file-upload-group">
+                        <label>CR Copy</label>
+                        <input type="file" name="cr_copy" class="form-control" id="cr_copy_input" required="True"/>
+                        <button type="button" class="btn btn-link text-danger file-remove-btn"
+                            onclick="clearFileInput('cr_copy_input', this)" style="display:none;">&#10006;</button>
+                    </div>
+                     <div class="file-upload-group">
+                        <label>Vat Certificate</label>
+                        <input type="file" name="vat_certificate" class="form-control" id="vat_certificate_input" />
+                        <button type="button" class="btn btn-link text-danger file-remove-btn"
+                            onclick="clearFileInput('vat_certificate_input', this)" style="display:none;">&#10006;</button>
+                    </div>
+                     <div class="file-upload-group">
+                        <label>Tax Certificate</label>
+                        <input type="file" name="tax_certificate" class="form-control" id="tax_certificate_input" required="True"/>
+                        <button type="button" class="btn btn-link text-danger file-remove-btn"
+                            onclick="clearFileInput('tax_certificate_input', this)" style="display:none;">&#10006;</button>
+                    </div>
+                     <div class="file-upload-group">
+                        <label>Stamped Bank Account</label>
+                        <input type="file" name="stamped_bank_account" class="form-control" id="stamped_bank_account_input" required="True"/>
+                        <button type="button" class="btn btn-link text-danger file-remove-btn"
+                            onclick="clearFileInput('stamped_bank_account_input', this)" style="display:none;">&#10006;</button>
+                    </div>
+                    <!-- <div>
+                        <label><input type="checkbox" name="download_form" required="True"/> Download Vendor registration application form</label>
+                    </div> -->
+                    <div class="mt-3 file-upload-group">
+                        <a href="/vendor_registration_form/static/docs/karwa-motors-supplier-application-form.docx"
+                            class="btn btn-secondary"
+                            download="karwa-motors-supplier-application-form.docx">
+                            Download Vendor Registration Application Form
+                        </a>
+                        <!--<input type="file" name="downloaded_form" class="form-control" id="downloaded_form_input" style="margin-top: 10px;"/>
+                        <button type="button" class="btn btn-link text-danger file-remove-btn" onclick="clearFileInput('downloaded_form_input', this)" style="display:none;">&#10006;</button>-->
+                    </div>
+                <br/>
+                    <div class="file-upload-group">
+                        <label>Upload Vendor registration application form</label>
+                        <input type="file" name="uploaded_form" class="form-control" id="uploaded_form_input" required="True"/>
+                        <button type="button" class="btn btn-link text-danger file-remove-btn" onclick="clearFileInput('uploaded_form_input', this)" style="display:none;">&#10006;</button>
+                    </div>
+                <br/>
+                <button type="submit" class="btn btn-primary">Submit application</button>
+                <br/>
+            </form>
+            </section>
+        </t>
+        <script>
+function clearFileInput(inputId, btn) {
+    var input = document.getElementById(inputId);
+    if (input) {
+        input.value = "";
+        if (btn) {
+            btn.style.display = "none";
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('input[type="file"]').forEach(function(input) {
+        input.addEventListener('change', function() {
+            var btn = input.parentElement.querySelector('.file-remove-btn');
+            if (btn) {
+                if (input.value) {
+                    btn.style.display = "inline-block";
+                } else {
+                    btn.style.display = "none";
+                }
+            }
+        });
+    });
+});
+</script>
+    </template>
+    <template id="vendor_created_success_template" name="Vendor Registration Success">
+        <t t-call="website.layout">
+            <main class="container my-5">
+                <section class="text-center">
+                    <h2>Thank you!</h2>
+                    <p>Your vendor registration has been submitted successfully.</p>
+                    <a href="/" class="btn btn-primary mt-3">Back to Home</a>
+                </section>
+            </main>
+        </t>
+    </template>
+</odoo>
